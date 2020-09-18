@@ -23,6 +23,8 @@ def download():
     
     os.system(cmd)
 
+    os.remove("tmp/video.webm")
+
     # return render_template("index.html")
 
     f = zipfile.ZipFile('test.zip', 'w', zipfile.ZIP_DEFLATED)
