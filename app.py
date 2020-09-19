@@ -11,26 +11,29 @@ def index():
 
 @app.route("/", methods=['POST'])
 def download():
-    url = request.form.get("input")
-    cmd = f"you-get {url} -o tmp -O video"
+    hello = "sdads"
+    user_input = request.form.get("input")
 
-    print("Downloading ...")
+    print(type(user_input))
 
-    # r = os.popen(cmd)  
-    # text = r.read()  
-    # r.close()  
-    # print("Got those: \n" + text)
+    check = user_input.lower()
+
+    # Check input
+    if check.startswith("av") or check.startswith("bv"):
+        user_input = f'"http://www.bilibili.com/video/{user_input}"'
+
+    cmd = f"you-get {user_input} -O video"
+
+    print(f"Downloading {user_input}...")
     
     os.system(cmd)
 
-    os.remove("tmp/video.webm")
+    # os.remove("video.webm")
 
-    # return render_template("index.html")
+    return render_template("index.html")
 
-    f = zipfile.ZipFile('test.zip', 'w', zipfile.ZIP_DEFLATED)
-    f.write("tmp/video.webm")
-    f.close()
+    # return send_file("video.webm", as_attachment=True)
 
-    return send_file("test.zip", as_attachment=True)
+    # return send_file("test.zip", as_attachment=True)
 
-app.run(debug=True)
+app.run(debug=True, host="0.0.0.0", port="80")
